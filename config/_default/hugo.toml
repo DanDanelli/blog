@@ -22,12 +22,12 @@ defaultContentLanguage = "en"
       description = "Tech studies and projects portfolio."
 
       [languages.en.params.author]
-        name = "Your Name"
-        headline = "Developer & Learner"
+        name = "Daniel Miranda Danelli"
+        headline = "Cloud Architect & Learner"
         bio = "Sharing my technical journey with the world."
         links = [
-          { github = "https://github.com" },
-          { linkedin = "https://linkedin.com" },
+          { github = "https://github.com/DanDanelli" },
+          { linkedin = "https://www.linkedin.com/in/daniel-m-danelli-92909b34/" },
         ]
 
 disableLanguages = [] #to allow translation work requiring shipping to production
