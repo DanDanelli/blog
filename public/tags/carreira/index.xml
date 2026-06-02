@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Carreira on Meu Portfólio</title>
+    <link>https://localhost:1313/tags/carreira/</link>
+    <description>Recent content in Carreira on Meu Portfólio</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <copyright>© 2026 Seu Nome</copyright>
+    <lastBuildDate>Mon, 01 Jun 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://localhost:1313/tags/carreira/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Como comecei meus estudos em tecnologia</title>
+      <link>https://localhost:1313/posts/meu-primeiro-post/</link>
+      <pubDate>Mon, 01 Jun 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://localhost:1313/posts/meu-primeiro-post/</guid>
+      <description>Um resumo da minha trajetória e motivações.</description>
+      
+    </item>
+    
+  </channel>
+</rss>
