@@ -1,0 +1,88 @@
+diff --git a/source/claude_code_with_bedrock/cli/commands/package.py b/source/claude_code_with_bedrock/cli/commands/package.py
+index e33d34e..cb2c1c9 100644
+--- a/source/claude_code_with_bedrock/cli/commands/package.py
++++ b/source/claude_code_with_bedrock/cli/commands/package.py
+@@ -764,6 +764,15 @@ class PackageCommand(Command):
+             [
+                 "--remove-output",  # Clean up build artifacts
+                 "--python-flag=no_site",  # Don't include site packages
++                # cryptography is pulled in eagerly via PyJWT (jwt.utils -> cryptography).
++                # Its native Rust binding (cryptography.hazmat.bindings._rust) is loaded
++                # dynamically, so Nuitka's automatic import-following does NOT reliably
++                # bundle the _rust extension. Without these explicit includes the binary
++                # raises a bare ImportError from cryptography/exceptions.py on a clean
++                # machine that has no system Python/cryptography to fall back on.
++                "--include-package=cryptography",
++                "--include-package-data=cryptography",
++                "--include-module=cryptography.hazmat.bindings._rust",
+             ]
+         )
+
+@@ -1515,9 +1524,9 @@ RUN pyinstaller \
+         # Windows uses Nuitka via CodeBuild
+         if target_platform == "windows":
+             # Check if the Windows binary already exists (built by _build_executable)
+-            windows_binary = output_dir / "otel-helper-windows.exe"
+-            if windows_binary.exists():
+-                return windows_binary
++            windows_dist = output_dir / "otel-helper-windows.dist"
++            if windows_dist.exists():
++                return windows_dist / "otel-helper-windows.exe"
+             else:
+                 # If not, we need to build via CodeBuild (but this should have been done already)
+                 raise RuntimeError("Windows otel-helper should have been built with credential-process")
+@@ -2146,19 +2155,30 @@ REM Create directory
+ echo Installing authentication tools...
+ if not exist "%USERPROFILE%\\claude-code-with-bedrock" mkdir "%USERPROFILE%\\claude-code-with-bedrock"
+
+-REM Copy credential process executable with renamed target
++REM Copy credential process folder
+ echo Copying credential process...
+-copy /Y "credential-process-windows.exe" "%USERPROFILE%\\claude-code-with-bedrock\\credential-process.exe" >nul
++if not exist "credential-process-windows.dist" (
++    echo ERROR: credential-process-windows.dist folder not found
++    pause
++    exit /b 1
++)
++xcopy /E /I /Y "credential-process-windows.dist" "%USERPROFILE%\\claude-code-with-bedrock\\credential-process" >nul
+ if %errorlevel% neq 0 (
+-    echo ERROR: Failed to copy credential-process-windows.exe
++    echo ERROR: Failed to copy credential-process-windows.dist
+     pause
+     exit /b 1
+ )
+
+-REM Copy OTEL helper if it exists with renamed target
+-if exist "otel-helper-windows.exe" (
++REM Copy OTEL helper folder if it exists
++if exist "otel-helper-windows.dist" (
+     echo Copying OTEL helper...
+-    copy /Y "otel-helper-windows.exe" "%USERPROFILE%\\claude-code-with-bedrock\\otel-helper.exe" >nul
++    xcopy /E /I /Y "otel-helper-windows.dist" "%USERPROFILE%\\claude-code-with-bedrock\\otel-helper" >nul
++)
++
++REM Copy credential shim folder if it exists
++if exist "credential-shim-windows.dist" (
++    echo Copying credential shim...
++    xcopy /E /I /Y "credential-shim-windows.dist" "%USERPROFILE%\\claude-code-with-bedrock\\credential-shim" >nul
+ )
+
+ REM Copy configuration
+@@ -2198,7 +2218,7 @@ if exist "claude-settings" (
+
+         if not "%SKIP_SETTINGS%"=="true" (
+             REM Use PowerShell to replace placeholders
+-            powershell -Command "$otelPath = $env:USERPROFILE + '\\claude-code-with-bedrock\\otel-helper.exe' -replace '\\\\', '/'; $credPath = $env:USERPROFILE + '\\claude-code-with-bedrock\\credential-process.exe' -replace '\\\\', '/'; (Get-Content 'claude-settings\\settings.json') -replace '__OTEL_HELPER_PATH__', $otelPath -replace '__CREDENTIAL_PROCESS_PATH__', $credPath | Set-Content (Join-Path $env:USERPROFILE '.claude\\settings.json')"
++            powershell -Command "$otelPath = $env:USERPROFILE + '\\claude-code-with-bedrock\\otel-helper\\otel-helper-windows.exe' -replace '\\\\', '/'; $shimPath = $env:USERPROFILE + '\\claude-code-with-bedrock\\credential-shim\\credential-shim-windows.exe'; $credPath = if (Test-Path $shimPath) {{ $shimPath -replace '\\\\', '/' }} else {{ $env:USERPROFILE + '\\claude-code-with-bedrock\\credential-process\\credential-process-windows.exe' -replace '\\\\', '/' }}; (Get-Content 'claude-settings\\settings.json') -replace '__OTEL_HELPER_PATH__', $otelPath -replace '__CREDENTIAL_PROCESS_PATH__', $credPath | Set-Content (Join-Path $env:USERPROFILE '.claude\\settings.json')"
+             echo OK Claude Code settings configured
+         )
+     )
+@@ -2217,7 +2237,7 @@ REM older ccwb auth logout) would shadow credential_process and break Cowork
+ REM Desktop with a 403 InvalidClientTokenId.
+ powershell -NoProfile -Command "$ErrorActionPreference = 'Stop'; $awsCreds = Join-Path $env:USERPROFILE '.aws\credentials'; if (Test-Path $awsCreds) {{ $cfg = Get-Content config.json | ConvertFrom-Json; $existing = Get-Content $awsCreds -Raw; foreach ($p in $cfg.PSObject.Properties.Name) {{ $pattern = '(?ms)^\[' + [regex]::Escape($p) + '\].*?(?=^\[|\Z)'; $existing = [regex]::Replace($existing, $pattern, '') }}; Set-Content -Path $awsCreds -Value $existing.TrimStart() -NoNewline -Encoding ASCII }}"
+
+-powershell -NoProfile -Command "$ErrorActionPreference = 'Stop'; $nl = [char]13 + [char]10; $cfg = Get-Content config.json | ConvertFrom-Json; $awsConfig = Join-Path $env:USERPROFILE '.aws\config'; $credProcess = Join-Path $env:USERPROFILE 'claude-code-with-bedrock\credential-process.exe'; $existing = if (Test-Path $awsConfig) {{ Get-Content $awsConfig -Raw }} else {{ '' }}; foreach ($p in $cfg.PSObject.Properties.Name) {{ $region = $cfg.$p.aws_region; if (-not $region) {{ $region = '{profile.aws_region}' }}; $pattern = '(?ms)^\[profile ' + [regex]::Escape($p) + '\].*?(?=^\[|\Z)'; $existing = [regex]::Replace($existing, $pattern, ''); $stanza = '[profile ' + $p + ']' + $nl + 'credential_process = ' + $credProcess + ' --profile ' + $p + $nl + 'region = ' + $region + $nl; $existing = $existing.TrimEnd() + $nl + $nl + $stanza; Write-Host ('  OK Configured AWS profile ' + $p) }}; Set-Content -Path $awsConfig -Value $existing.TrimStart() -NoNewline -Encoding ASCII"
++powershell -NoProfile -Command "$ErrorActionPreference = 'Stop'; $nl = [char]13 + [char]10; $cfg = Get-Content config.json | ConvertFrom-Json; $awsConfig = Join-Path $env:USERPROFILE '.aws\config'; $shimExe = Join-Path $env:USERPROFILE 'claude-code-with-bedrock\credential-shim\credential-shim-windows.exe'; $credProcess = if (Test-Path $shimExe) {{ $shimExe }} else {{ Join-Path $env:USERPROFILE 'claude-code-with-bedrock\credential-process\credential-process-windows.exe' }}; $existing = if (Test-Path $awsConfig) {{ Get-Content $awsConfig -Raw }} else {{ '' }}; foreach ($p in $cfg.PSObject.Properties.Name) {{ $region = $cfg.$p.aws_region; if (-not $region) {{ $region = '{profile.aws_region}' }}; $pattern = '(?ms)^\[profile ' + [regex]::Escape($p) + '\].*?(?=^\[|\Z)'; $existing = [regex]::Replace($existing, $pattern, ''); $stanza = '[profile ' + $p + ']' + $nl + 'credential_process = ' + $credProcess + ' --profile ' + $p + $nl + 'region = ' + $region + $nl; $existing = $existing.TrimEnd() + $nl + $nl + $stanza; Write-Host ('  OK Configured AWS profile ' + $p) }}; Set-Content -Path $awsConfig -Value $existing.TrimStart() -NoNewline -Encoding ASCII"
+ if %errorlevel% neq 0 (
+     echo ERROR: Failed to configure AWS profiles
+     pause

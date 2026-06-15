@@ -1,0 +1,43 @@
+# --- Secrets & environment-specific config (NEVER commit) ---
+*.tfvars
+!*.example.tfvars
+.env
+!.env.example
+*.pem
+*.key
+*.bin
+credentials.json
+
+# --- Terraform ---
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+crash.log
+override.tf
+override.tf.json
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+
+# --- Build outputs ---
+*.dist/
+*.exe
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

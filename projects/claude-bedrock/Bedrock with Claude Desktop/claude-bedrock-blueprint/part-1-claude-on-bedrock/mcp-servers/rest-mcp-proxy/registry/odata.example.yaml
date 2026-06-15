@@ -1,0 +1,45 @@
+# OData example registry — demonstrates the '$' finding from post A4.
+#
+# OData query params (`$select`, `$top`, `$expand`) are kept WITH their leading '$' here,
+# because that's the wire name the API expects. The proxy exposes them to the MCP client
+# WITHOUT the '$' (as `select`, `top`, `expand`) because Bedrock/Anthropic reject '$' in
+# tool schema property keys (^[a-zA-Z0-9_.-]{1,64}$). The dispatcher re-adds the '$' (URL-
+# encoded to %24) when building the request.
+#
+# `quote_safe` shows the second finding: keep characters like ':' / '/' from being
+# percent-encoded in a path segment that needs them.
+
+base_url: "https://example.com/odata/v1"
+
+tools:
+
+  list_items:
+    description: "List items. Field selection and paging via OData params."
+    method: GET
+    path: "/items"
+    query_params:
+      $select:
+        type: string
+        description: "Comma-separated fields to return (exposed to the client as 'select')"
+        required: false
+        default: "id,name,modified"
+      $top:
+        type: integer
+        description: "Max items (exposed as 'top')"
+        required: false
+        default: 50
+      $expand:
+        type: string
+        description: "Related entities to inline (exposed as 'expand')"
+        required: false
+
+  get_item_by_path:
+    description: "Resolve an item by an addressing path that embeds ':' and '/'."
+    method: GET
+    path: "/resolve/{hostPath}"
+    path_params:
+      hostPath:
+        type: string
+        description: "Host and relative path joined by a colon, e.g. 'host:/folder/name'"
+        required: true
+        quote_safe: ":/"   # keep ':' and '/' so the address is not over-encoded

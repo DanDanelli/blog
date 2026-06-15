@@ -1,0 +1,39 @@
+diff --git a/deployment/infrastructure/codebuild-windows.yaml b/deployment/infrastructure/codebuild-windows.yaml
+index 769ffba..84aca9b 100644
+--- a/deployment/infrastructure/codebuild-windows.yaml
++++ b/deployment/infrastructure/codebuild-windows.yaml
+@@ -153,20 +153,27 @@ Resources:
+               commands:
+                 - echo Building Windows executables sequentially...
+                 - echo Building credential-process Windows executable...
+-                - C:\Python312\python.exe -m nuitka --standalone --onefile --assume-yes-for-downloads --company-name="Claude Code" --product-name="Claude Code Credential Process" --file-version="1.0.0.0" --product-version="1.0.0.0" --windows-file-description="AWS Credential Process for Claude Code" --include-package=keyring.backends --output-filename=credential-process-windows.exe --output-dir=. --remove-output source/credential_provider/__main__.py
++                - C:\Python312\python.exe -m nuitka --standalone --assume-yes-for-downloads --company-name="Claude Code" --product-name="Claude Code Credential Process" --file-version="1.0.0.0" --product-version="1.0.0.0" --windows-file-description="AWS Credential Process for Claude Code" --include-package=keyring.backends --include-package=cryptography --include-package-data=cryptography --include-module=cryptography.hazmat.bindings._rust --output-filename=credential-process-windows.exe --output-dir=. --remove-output source/credential_provider/__main__.py
++                - Rename-Item -Path "__main__.dist" -NewName "credential-process-windows.dist"
+                 - echo Building otel-helper Windows executable...
+-                - C:\Python312\python.exe -m nuitka --standalone --onefile --assume-yes-for-downloads --company-name="Claude Code" --product-name="Claude Code OTEL Helper" --file-version="1.0.0.0" --product-version="1.0.0.0" --windows-file-description="OpenTelemetry Helper for Claude Code" --output-filename=otel-helper-windows.exe --output-dir=. --remove-output source/otel_helper/__main__.py
++                - C:\Python312\python.exe -m nuitka --standalone --assume-yes-for-downloads --company-name="Claude Code" --product-name="Claude Code OTEL Helper" --file-version="1.0.0.0" --product-version="1.0.0.0" --windows-file-description="OpenTelemetry Helper for Claude Code" --output-filename=otel-helper-windows.exe --output-dir=. --remove-output source/otel_helper/__main__.py
++                - Rename-Item -Path "__main__.dist" -NewName "otel-helper-windows.dist"
++                - echo Building credential-shim Windows executable...
++                - C:\Python312\python.exe -m nuitka --standalone --assume-yes-for-downloads --company-name="Claude Code" --product-name="Claude Code Credential Shim" --file-version="1.0.0.0" --product-version="1.0.0.0" --windows-file-description="Credential Cache Shim for Claude Code" --output-filename=credential-shim-windows.exe --output-dir=. --remove-output source/credential_shim/__main__.py
++                - Rename-Item -Path "__main__.dist" -NewName "credential-shim-windows.dist"
+             post_build:
+               commands:
+                 - echo Build completed successfully
+-                - Get-ChildItem *.exe
+-                - echo Checking file sizes...
+-                - Get-ChildItem *.exe | ForEach-Object { Write-Host "$($_.Name) - $($_.Length) bytes" }
++                - Get-ChildItem *.dist -Directory
++                - echo Checking executable sizes...
++                - Get-ChildItem *.dist\*.exe | ForEach-Object { Write-Host "$($_.Name) - $($_.Length) bytes" }
+
+           artifacts:
+             files:
+-              - credential-process-windows.exe
+-              - otel-helper-windows.exe
++              - 'credential-process-windows.dist/**/*'
++              - 'otel-helper-windows.dist/**/*'
++              - 'credential-shim-windows.dist/**/*'
++            discard-paths: no
+             name: windows-binaries
+
+       LogsConfig:

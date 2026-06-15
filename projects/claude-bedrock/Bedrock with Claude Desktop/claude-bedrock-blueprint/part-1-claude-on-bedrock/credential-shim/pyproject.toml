@@ -1,0 +1,28 @@
+[project]
+name = "credential-shim"
+version = "0.1.0"
+description = "Fast, OS-protected cache shim for the AWS credential_process interface"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+dependencies = []  # stdlib only — by design
+
+[project.scripts]
+credential-shim = "credential_shim.__main__:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.5"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["credential_shim"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"

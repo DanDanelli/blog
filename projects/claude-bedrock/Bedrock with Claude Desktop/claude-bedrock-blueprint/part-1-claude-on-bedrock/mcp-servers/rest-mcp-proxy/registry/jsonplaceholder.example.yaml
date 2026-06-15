@@ -1,0 +1,51 @@
+# Runnable example registry — targets the public JSONPlaceholder API (no auth needed).
+# Try it:  REGISTRY=registry/jsonplaceholder.example.yaml python -m rest_mcp_proxy
+# Then send JSON-RPC on stdin (see the package README).
+
+base_url: "https://jsonplaceholder.typicode.com"
+
+tools:
+
+  list_posts:
+    description: "List posts. Optionally filter by user."
+    method: GET
+    path: "/posts"
+    query_params:
+      userId:
+        type: integer
+        description: "Only return posts by this user id"
+        required: false
+      _limit:
+        type: integer
+        description: "Max posts to return"
+        required: false
+        default: 10
+
+  get_post:
+    description: "Get a single post by id."
+    method: GET
+    path: "/posts/{id}"
+    path_params:
+      id:
+        type: integer
+        description: "Post id"
+        required: true
+
+  create_post:
+    description: "Create a post (JSONPlaceholder fakes the write and echoes it back)."
+    annotations: {destructiveHint: false}   # additive — creates, removes nothing
+    method: POST
+    path: "/posts"
+    body_params:
+      title:
+        type: string
+        description: "Post title"
+        required: true
+      body:
+        type: string
+        description: "Post body"
+        required: true
+      userId:
+        type: integer
+        description: "Author user id"
+        required: true

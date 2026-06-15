@@ -1,0 +1,28 @@
+[project]
+name = "dcr-shim"
+version = "0.1.0"
+description = "A minimal OAuth/DCR bridge that fronts Microsoft Entra ID for MCP clients"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+dependencies = []  # stdlib only
+
+[project.scripts]
+dcr-shim = "dcr_shim.__main__:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.5"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["dcr_shim"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
