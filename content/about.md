@@ -11,8 +11,8 @@ Documentation tells you how things should work. Production tells you how they do
 
 ## What you'll find here
 
-- **Work notes.** Lessons from enterprise cloud and AI deployments. Companies stay unnamed and details are sanitized, but the findings are real.
-- **Lab notes.** Projects I build and use at home, like Jarvis, my home assistant.
+- **Notes.** Lessons from real cloud and AI work. Companies stay unnamed and details are sanitized, but the findings are real.
+- **Projects.** Things I've built end to end, at work and at home, with the architecture and decisions behind them.
 
 ## Get in touch
 
