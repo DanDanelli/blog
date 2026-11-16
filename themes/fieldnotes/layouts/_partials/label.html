@@ -1,0 +1,3 @@
+{{- /* Display text for a front-matter label (track, status, category): the i18n entry
+       "label_<urlized value>" if there is one, else the value itself. CSS classes keep the raw value. */ -}}
+{{- return (i18n (printf "label_%s" (. | urlize)) | default .) }}

@@ -1,34 +1,34 @@
 {{ define "main" }}
-{{- $track := index (.Params.categories | default (slice "Notes")) 0 }}
+{{- $track := index (.Params.categories | default (slice (i18n "notes"))) 0 }}
 {{- $parts := slice }}{{ $seriesName := "" }}
 {{- with .Params.series }}
   {{- $seriesName = index . 0 }}
-  {{- $parts = sort (where (where site.RegularPages "Section" "posts") "Params.series" "intersect" (slice $seriesName)) "Params.series_order" }}
+  {{- $parts = sort (where (partial "localized.html" (dict "section" "posts")) "Params.series" "intersect" (slice $seriesName)) "Params.series_order" }}
 {{- end }}
 {{- $project := partial "project-of.html" . }}
 
 <article class="post">
   <header class="post-header grid-paper">
     <div class="wrap post-header-inner">
-      <nav class="crumbs" aria-label="Breadcrumb">
+      <nav class="crumbs" aria-label="{{ i18n "breadcrumb" }}">
         {{- with $project }}
-        <a href="{{ (site.GetPage "/projects").RelPermalink }}">Projects</a><span aria-hidden="true">/</span><a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        <a href="{{ (site.GetPage "/projects").RelPermalink }}">{{ i18n "projects" }}</a><span aria-hidden="true">/</span><a href="{{ .RelPermalink }}">{{ .Title }}</a>
         {{- else }}
-        <a href="{{ (site.GetPage "/posts").RelPermalink }}">Notes</a>
+        <a href="{{ (site.GetPage "/posts").RelPermalink }}">{{ i18n "notes" }}</a>
         {{- end }}
       </nav>
       {{- if and $project $parts }}
-      <p class="post-chapter"><a href="{{ $project.RelPermalink }}">{{ $project.Title }}</a><span>Build note {{ .Params.series_order }} of {{ len $parts }}</span></p>
+      <p class="post-chapter"><a href="{{ $project.RelPermalink }}">{{ $project.Title }}</a><span>{{ i18n "buildNoteOf" (dict "N" .Params.series_order "Total" (len $parts)) }}</span></p>
       {{- end }}
       <h1 class="post-title">{{ .Title }}</h1>
       {{- with .Description }}<p class="post-lede">{{ . }}</p>{{ end }}
       <div class="note-meta post-meta">
-        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_medium" }}</time>
         {{- if ne (.Lastmod.Format "2006-01-02") (.Date.Format "2006-01-02") }}
-        <span>Updated {{ .Lastmod.Format "Jan 2, 2006" }}</span>{{ end }}
-        <span>{{ .ReadingTime }} min read</span>
-        <span class="track track-{{ $track | urlize }}">{{ $track }}</span>
-        {{- if .Draft }}<span class="draft-flag">Draft</span>{{ end }}
+        <span>{{ i18n "updated" (dict "Date" (.Lastmod | time.Format ":date_medium")) }}</span>{{ end }}
+        <span>{{ i18n "minRead" .ReadingTime }}</span>
+        <span class="track track-{{ $track | urlize }}">{{ partial "label.html" $track }}</span>
+        {{- if .Draft }}<span class="draft-flag">{{ i18n "draft" }}</span>{{ end }}
       </div>
     </div>
   </header>
@@ -36,17 +36,17 @@
   <div class="wrap post-layout">
     <div class="post-main">
       {{- with .Params.takeaway }}
-      <aside class="takeaway"><p class="takeaway-label">What you'll take away</p><p>{{ . }}</p></aside>
+      <aside class="takeaway"><p class="takeaway-label">{{ i18n "whatYoullTakeAway" }}</p><p>{{ . }}</p></aside>
       {{- end }}
 
       {{- with $project }}
       <aside class="part-of">
-        <p>This is a note from building <a href="{{ .RelPermalink }}">{{ .Title }}</a>. New to the project? <a href="{{ .RelPermalink }}">Read the project overview</a> first.</p>
+        <p>{{ i18n "partOf" (dict "URL" .RelPermalink "Title" .Title) | safeHTML }}</p>
       </aside>
       {{- end }}
       {{- if $parts }}
       <details class="series-box">
-        <summary>All {{ len $parts }} notes from the build</summary>
+        <summary>{{ i18n "allNotesFromBuild" (len $parts) }}</summary>
         <ol>
           {{- range $parts }}
           <li>{{ if eq .Permalink $.Permalink }}<span aria-current="page">{{ .Title }}</span>{{ else }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}</li>
@@ -60,7 +60,7 @@
       </div>
 
       {{- with .Params.tags }}
-      <ul class="tag-list post-tags" aria-label="Tags">
+      <ul class="tag-list post-tags" aria-label="{{ i18n "tags" }}">
         {{- range . }}<li><a href="{{ (site.GetPage (printf "/tags/%s" (. | urlize))).RelPermalink }}">#{{ . | lower }}</a></li>{{ end }}
       </ul>
       {{- end }}
@@ -72,16 +72,16 @@
           {{- if lt (add $i 1) (len $parts) }}{{ $next = index $parts (add $i 1) }}{{ end }}
         {{- end }}{{ end }}
         {{- if or $prev $next }}
-        <nav class="pager" aria-label="Series navigation">
-          {{- with $prev }}<a class="pager-prev" href="{{ .RelPermalink }}"><span>Previous note</span>{{ .Title }}</a>{{ end }}
-          {{- with $next }}<a class="pager-next" href="{{ .RelPermalink }}"><span>Next note</span>{{ .Title }}</a>{{ end }}
+        <nav class="pager" aria-label="{{ i18n "seriesNavigation" }}">
+          {{- with $prev }}<a class="pager-prev" href="{{ .RelPermalink }}"><span>{{ i18n "previousNote" }}</span>{{ .Title }}</a>{{ end }}
+          {{- with $next }}<a class="pager-next" href="{{ .RelPermalink }}"><span>{{ i18n "nextNote" }}</span>{{ .Title }}</a>{{ end }}
         </nav>
         {{- end }}
       {{- else }}
         {{- $related := .Site.RegularPages.Related . | first 3 }}
         {{- with $related }}
         <section class="related">
-          <h2>Related notes</h2>
+          <h2>{{ i18n "relatedNotes" }}</h2>
           <div class="note-list">{{ range . }}{{ partial "note-entry.html" (dict "page" .) }}{{ end }}</div>
         </section>
         {{- end }}
@@ -89,8 +89,8 @@
     </div>
 
     {{- if and (ne .Params.toc false) (gt (len .Fragments.Headings) 0) (gt (.WordCount) 400) }}
-    <aside class="toc" aria-label="On this page">
-      <p class="toc-title">On this page</p>
+    <aside class="toc" aria-label="{{ i18n "onThisPage" }}">
+      <p class="toc-title">{{ i18n "onThisPage" }}</p>
       {{ .TableOfContents }}
     </aside>
     {{- end }}

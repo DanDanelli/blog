@@ -1,16 +1,16 @@
 {{ define "main" }}
 <section class="page-head grid-paper">
   <div class="wrap">
-    <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ .Parent.RelPermalink }}">{{ .Parent.Title }}</a></nav>
+    <nav class="crumbs" aria-label="{{ i18n "breadcrumb" }}"><a href="{{ .Parent.RelPermalink }}">{{ .Parent.Title }}</a></nav>
     <h1 class="page-title">{{ if eq .Data.Plural "tags" }}#{{ .Title | lower }}{{ else }}{{ .Title }}{{ end }}</h1>
-    <p class="page-intro muted">{{ len .Pages }} {{ cond (eq (len .Pages) 1) "entry" "entries" }}</p>
+    <p class="page-intro muted">{{ i18n "entries" (len .Pages) }}</p>
   </div>
 </section>
 <section class="wrap list-body narrow">
   {{ partial "note-list.html" (dict "pages" (where .Pages "Section" "posts") "filters" false) }}
   {{- $projects := where .Pages "Section" "projects" }}
   {{- with $projects }}
-  <h2 class="list-subhead">Projects</h2>
+  <h2 class="list-subhead">{{ i18n "projects" }}</h2>
   <div class="project-grid">{{ range . }}{{ partial "project-card.html" . }}{{ end }}</div>
   {{- end }}
 </section>

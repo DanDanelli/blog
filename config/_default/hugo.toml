@@ -1,8 +1,8 @@
 # -- Site configuration --
 theme = "fieldnotes"
 baseURL = "https://DanDanelli.github.io/blog/"
-languageCode = "en"
 defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = false
 title = "Daniel M. Danelli"
 
 enableRobotsTXT = true

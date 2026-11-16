@@ -1,0 +1,22 @@
+{{- /* Regular pages of a section in the current language, falling back to the default language
+       for pages not translated yet. Context: dict "section" <string>. Returns Pages, in the
+       default language's order; untranslated fallbacks keep their own language and URL. */ -}}
+{{- $here := site.Language.Lang }}
+{{- $base := index site.Sites 0 }}
+{{- $out := first 0 site.RegularPages }}
+{{- if eq $base.Language.Lang $here }}
+  {{- $out = where site.RegularPages "Section" .section }}
+{{- else }}
+  {{- range where $base.RegularPages "Section" .section }}
+    {{- $p := . }}
+    {{- range .Translations }}{{ if eq .Language.Lang $here }}{{ $p = . }}{{ end }}{{ end }}
+    {{- $out = $out | append $p }}
+  {{- end }}
+  {{- /* Pages that exist only in this language */}}
+  {{- range where site.RegularPages "Section" .section }}
+    {{- $hasBase := false }}
+    {{- range .Translations }}{{ if eq .Language.Lang $base.Language.Lang }}{{ $hasBase = true }}{{ end }}{{ end }}
+    {{- if not $hasBase }}{{ $out = $out | append . }}{{ end }}
+  {{- end }}
+{{- end }}
+{{- return $out }}

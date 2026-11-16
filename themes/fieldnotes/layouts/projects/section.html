@@ -7,7 +7,7 @@
 </section>
 <section class="wrap list-body">
   <div class="panel-stack">
-    {{- range .Pages.ByWeight }}{{ partial "project-panel.html" . }}{{ end }}
+    {{- range (partial "localized.html" (dict "section" "projects")).ByWeight }}{{ partial "project-panel.html" . }}{{ end }}
   </div>
 </section>
 {{ end }}

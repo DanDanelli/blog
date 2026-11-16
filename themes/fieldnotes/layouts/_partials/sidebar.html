@@ -1,6 +1,6 @@
 <aside class="sidebar">
   <section class="side-block">
-    <h2 class="side-title">Who writes this</h2>
+    <h2 class="side-title">{{ i18n "whoWritesThis" }}</h2>
     <div class="who">
       {{- with resources.Get "img/avatar.jpg" }}
         {{- $img := .Fill "192x192 Center webp" }}
@@ -14,10 +14,10 @@
       </div>
     </div>
     <p>{{ site.Params.author.bio }}</p>
-    {{ with site.GetPage "/about" }}<a class="text-link" href="{{ .RelPermalink }}">More about me</a>{{ end }}
+    {{ with site.GetPage "/about" }}<a class="text-link" href="{{ .RelPermalink }}">{{ i18n "moreAboutMe" }}</a>{{ end }}
   </section>
   <section class="side-block">
-    <h2 class="side-title">Where to find me</h2>
+    <h2 class="side-title">{{ i18n "whereToFindMe" }}</h2>
     {{ partial "social.html" (dict "class" "side-links") }}
   </section>
 </aside>

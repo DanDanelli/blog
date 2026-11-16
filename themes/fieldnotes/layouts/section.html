@@ -6,6 +6,6 @@
   </div>
 </section>
 <section class="wrap list-body narrow">
-  {{ partial "note-list.html" (dict "pages" .RegularPages "filters" true) }}
+  {{ partial "note-list.html" (dict "pages" (partial "localized.html" (dict "section" .Section)) "filters" true) }}
 </section>
 {{ end }}

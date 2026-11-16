@@ -8,8 +8,8 @@
 {{- $w := $img.Width }}{{ $h := $img.Height }}
 {{- $url := ($img | fingerprint "md5").RelPermalink }}
 <figure class="diagram">
-  <a href="{{ $url }}" target="_blank" rel="noopener" title="Open full size">
+  <a href="{{ $url }}" target="_blank" rel="noopener" title="{{ i18n "openFullSize" }}">
     <img src="{{ $url }}" alt="{{ $alt }}" width="{{ $w }}" height="{{ $h }}" loading="lazy" decoding="async">
   </a>
-  <figcaption>{{ with .Get "caption" }}<span>{{ . | markdownify }}</span>{{ end }}<a href="{{ $url }}" target="_blank" rel="noopener">Open full size ↗</a></figcaption>
+  <figcaption>{{ with .Get "caption" }}<span>{{ . | markdownify }}</span>{{ end }}<a href="{{ $url }}" target="_blank" rel="noopener">{{ i18n "openFullSize" }} ↗</a></figcaption>
 </figure>

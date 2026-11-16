@@ -16,12 +16,12 @@
       {{- end }}
       {{- if not $.compact }}
         {{- with .Description }}<p class="chapter-desc">{{ . | plainify | truncate 190 }}</p>{{ end }}
-        <p class="chapter-meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time><span>{{ .ReadingTime }} min read</span>{{ if .Draft }}<span class="draft-flag">Draft</span>{{ end }}</p>
+        <p class="chapter-meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_medium" }}</time><span>{{ i18n "minRead" .ReadingTime }}</span>{{ if ne .Language.Lang site.Language.Lang }}<span class="lang-flag" lang="{{ .Language.LanguageCode }}" title="{{ i18n "englishOnly" }}">{{ upper .Language.Lang }}</span>{{ end }}{{ if .Draft }}<span class="draft-flag">{{ i18n "draft" }}</span>{{ end }}</p>
       {{- end }}
     </div>
   </li>
   {{- end }}
 </ol>
 {{- if and (gt $limit 0) (gt (len $chapters) $limit) .more }}
-<a class="chapters-more" href="{{ .more }}">All {{ len $chapters }} notes</a>
+<a class="chapters-more" href="{{ .more }}">{{ i18n "allNNotes" (len $chapters) }}</a>
 {{- end }}

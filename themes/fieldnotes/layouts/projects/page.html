@@ -4,19 +4,19 @@
 <article class="post project">
   <header class="post-header grid-paper">
     <div class="wrap post-header-inner">
-      <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ (site.GetPage "/projects").RelPermalink }}">Projects</a></nav>
+      <nav class="crumbs" aria-label="{{ i18n "breadcrumb" }}"><a href="{{ (site.GetPage "/projects").RelPermalink }}">{{ i18n "projects" }}</a></nav>
       <h1 class="post-title">{{ .Title }}</h1>
       {{- with .Description }}<p class="post-lede">{{ . }}</p>{{ end }}
       <div class="note-meta post-meta">
-        {{- with .Params.status }}<span class="status status-{{ . | urlize }}">{{ . }}</span>{{ end }}
-        {{- with .Params.track }}<span class="track track-{{ . | urlize }}">{{ . }}</span>{{ end }}
-        {{- if $chapters }}<a href="#build-notes">{{ len $chapters }} notes from the build</a>{{ end }}
-        {{- with $latest }}<span>Latest {{ .Date.Format "Jan 2, 2006" }}</span>{{ end }}
-        {{- with .Params.repo }}<a href="{{ . }}" rel="noopener" target="_blank">Source code</a>{{ end }}
-        {{- if .Draft }}<span class="draft-flag">Draft</span>{{ end }}
+        {{- with .Params.status }}<span class="status status-{{ . | urlize }}">{{ partial "label.html" . }}</span>{{ end }}
+        {{- with .Params.track }}<span class="track track-{{ . | urlize }}">{{ partial "label.html" . }}</span>{{ end }}
+        {{- if $chapters }}<a href="#build-notes">{{ i18n "notesFromTheBuildCount" (len $chapters) }}</a>{{ end }}
+        {{- with $latest }}<span>{{ i18n "latest" (dict "Date" (.Date | time.Format ":date_medium")) }}</span>{{ end }}
+        {{- with .Params.repo }}<a href="{{ . }}" rel="noopener" target="_blank">{{ i18n "sourceCode" }}</a>{{ end }}
+        {{- if .Draft }}<span class="draft-flag">{{ i18n "draft" }}</span>{{ end }}
       </div>
       {{- with .Params.stack }}
-      <ul class="stack" aria-label="Stack">{{ range . }}<li>{{ . }}</li>{{ end }}</ul>
+      <ul class="stack" aria-label="{{ i18n "stack" }}">{{ range . }}<li>{{ . }}</li>{{ end }}</ul>
       {{- end }}
     </div>
   </header>
@@ -24,12 +24,12 @@
     <div class="post-main">
       <div class="prose">{{ .Content }}</div>
       <section class="project-chapters" id="build-notes">
-        <h2>Notes from the build</h2>
+        <h2>{{ i18n "notesFromTheBuild" }}</h2>
         {{- if $chapters }}
-          <p class="project-chapters-intro">What happened while building it, in the order it happened: the decisions, the reversals and what broke.</p>
+          <p class="project-chapters-intro">{{ i18n "chaptersIntro" }}</p>
           {{ partial "chapter-list.html" (dict "chapters" $chapters) }}
         {{- else }}
-          <p class="panel-soon">The first note is on its way. Follow the <a href="{{ "index.xml" | relURL }}">RSS feed</a> to get it when it lands.</p>
+          <p class="panel-soon">{{ i18n "firstNoteSoon" (dict "RSS" ("index.xml" | relLangURL)) | safeHTML }}</p>
         {{- end }}
       </section>
     </div>

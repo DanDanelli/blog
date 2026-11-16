@@ -4,29 +4,29 @@
 <article class="project-panel track-panel-{{ .Params.track | default "work" | urlize }}">
   <div class="panel-main">
     <div class="project-head">
-      {{- with .Params.status }}<span class="status status-{{ . | urlize }}">{{ . }}</span>{{ end }}
-      {{- with .Params.track }}<span class="track track-{{ . | urlize }}">{{ . }}</span>{{ end }}
-      {{- if .Draft }}<span class="draft-flag">Draft</span>{{ end }}
+      {{- with .Params.status }}<span class="status status-{{ . | urlize }}">{{ partial "label.html" . }}</span>{{ end }}
+      {{- with .Params.track }}<span class="track track-{{ . | urlize }}">{{ partial "label.html" . }}</span>{{ end }}
+      {{- if .Draft }}<span class="draft-flag">{{ i18n "draft" }}</span>{{ end }}
     </div>
     <h3 class="panel-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
     {{- with .Params.description }}<p class="panel-desc">{{ . }}</p>{{ end }}
     {{- with .Params.stack }}
-    <ul class="stack" aria-label="Stack">{{ range . }}<li>{{ . }}</li>{{ end }}</ul>
+    <ul class="stack" aria-label="{{ i18n "stack" }}">{{ range . }}<li>{{ . }}</li>{{ end }}</ul>
     {{- end }}
     <div class="panel-actions">
-      <a class="button" href="{{ .RelPermalink }}">Read the project</a>
+      <a class="button" href="{{ .RelPermalink }}">{{ i18n "readTheProject" }}</a>
     </div>
   </div>
   <div class="panel-side">
     {{- if $chapters }}
-      <p class="panel-side-title">{{ len $chapters }} notes from the build{{ with $latest }}<span class="muted">, latest {{ .Date.Format "Jan 2" }}</span>{{ end }}</p>
+      <p class="panel-side-title">{{ i18n "notesFromTheBuildCount" (len $chapters) }}{{ with $latest }}<span class="muted">, {{ i18n "latestLower" (dict "Date" (.Date | time.Format ":date_medium")) }}</span>{{ end }}</p>
       {{ partial "chapter-list.html" (dict "chapters" $chapters "limit" 5 "compact" true "more" (printf "%s#build-notes" .RelPermalink)) }}
     {{- else }}
       {{- with .Params.highlights }}
-      <p class="panel-side-title">At a glance</p>
+      <p class="panel-side-title">{{ i18n "atAGlance" }}</p>
       <ul class="highlights">{{ range . }}<li>{{ . }}</li>{{ end }}</ul>
       {{- end }}
-      <p class="panel-soon">Notes from the build start soon. Follow the <a href="{{ "index.xml" | relURL }}">RSS feed</a> to get the first one.</p>
+      <p class="panel-soon">{{ i18n "notesSoon" (dict "RSS" ("index.xml" | relLangURL)) | safeHTML }}</p>
     {{- end }}
   </div>
 </article>
