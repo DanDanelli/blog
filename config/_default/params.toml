@@ -3,8 +3,8 @@
 # Color scheme: "light", "dark", or "auto" (follows the visitor's system setting)
 appearance = "light"
 
-tagline = "Field notes on cloud & AI"
-description = "Field notes from a cloud architect: what the docs said, what production did, and what I'd do next time. Enterprise cloud and AI at work, home-lab projects at home."
+tagline = "Cloud & AI, from the field"
+description = "Notes and projects from a cloud architect: what the docs said, what production did, and what I'd do next time."
 
 # How many notes the home page lists
 homeNotes = 5
