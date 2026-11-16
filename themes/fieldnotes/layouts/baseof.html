@@ -11,10 +11,18 @@
   {{- $desc := or .Description .Summary site.Params.description | plainify | truncate 160 }}
   <meta name="description" content="{{ $desc }}">
   <link rel="canonical" href="{{ .Permalink }}">
+  {{- if .IsTranslated }}
+  {{- $default := (index site.Sites 0).Language.Lang }}
+  {{- range .AllTranslations }}
+  <link rel="alternate" hreflang="{{ .Language.LanguageCode }}" href="{{ .Permalink }}">
+  {{- if eq .Language.Lang $default }}<link rel="alternate" hreflang="x-default" href="{{ .Permalink }}">{{ end }}
+  {{- end }}
+  {{- end }}
   <meta property="og:title" content="{{ $title }}">
   <meta property="og:description" content="{{ $desc }}">
   <meta property="og:type" content="{{ cond .IsPage "article" "website" }}">
   <meta property="og:url" content="{{ .Permalink }}">
+  <meta property="og:locale" content="{{ replace (site.Language.LanguageCode | default "en") "-" "_" }}">
   <meta name="twitter:card" content="summary">
   {{- with .OutputFormats.Get "rss" }}
   <link rel="alternate" type="application/rss+xml" href="{{ .RelPermalink }}" title="{{ site.Title }}">
@@ -31,7 +39,7 @@
   {{- end }}{{ end }}
 </head>
 <body class="kind-{{ .Kind }}{{ with .Section }} section-{{ . }}{{ end }}">
-  <a class="skip" href="#main">Skip to content</a>
+  <a class="skip" href="#main">{{ i18n "skipToContent" }}</a>
   {{ partial "header.html" . }}
   <main id="main">
     {{ block "main" . }}{{ end }}

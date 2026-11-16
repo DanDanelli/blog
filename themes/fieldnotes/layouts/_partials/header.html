@@ -1,10 +1,11 @@
 <header class="site-header">
   <div class="wrap header-inner">
-    <a class="wordmark" href="{{ site.Home.RelPermalink }}" aria-label="{{ site.Title }}, home">
+    <a class="wordmark" href="{{ site.Home.RelPermalink }}" aria-label="{{ i18n "homeLabel" (dict "Title" site.Title) }}">
       <span class="wordmark-name">{{ site.Params.author.short | default site.Title }}</span>
       {{- if not .IsHome }}<span class="wordmark-tag">{{ site.Params.headerTag | default "from the field" }}</span>{{ end }}
     </a>
-    <nav class="site-nav" aria-label="Main">
+    <div class="header-right">
+    <nav class="site-nav" aria-label="{{ i18n "mainMenu" }}">
       {{- $current := . }}
       {{- $section := .Section }}
       {{- if and .IsPage (eq .Section "posts") (ne (partial "project-of.html" .) false) }}{{ $section = "projects" }}{{ end }}
@@ -14,5 +15,7 @@
         <a href="{{ .URL }}"{{ if $active }} aria-current="page"{{ end }}>{{ .Name }}</a>
       {{- end }}
     </nav>
+    {{ partial "lang-switch.html" . }}
+    </div>
   </div>
 </header>

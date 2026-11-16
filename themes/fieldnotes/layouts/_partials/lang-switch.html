@@ -1,0 +1,16 @@
+{{- /* EN | PT switcher. Links to this page's translation, or to that language's home page. */ -}}
+{{- if gt (len site.Sites) 1 }}
+{{- $page := . }}
+<nav class="lang-switch" aria-label="{{ i18n "language" }}">
+  {{- range site.Sites }}
+    {{- $lang := .Language.Lang }}
+    {{- if eq $lang site.Language.Lang }}
+    <span aria-current="true" lang="{{ .Language.LanguageCode }}">{{ upper $lang }}</span>
+    {{- else }}
+    {{- $url := .Home.RelPermalink }}
+    {{- range $page.Translations }}{{ if eq .Language.Lang $lang }}{{ $url = .RelPermalink }}{{ end }}{{ end }}
+    <a href="{{ $url }}" hreflang="{{ .Language.LanguageCode }}" lang="{{ .Language.LanguageCode }}" title="{{ .Language.LanguageName }}">{{ upper $lang }}</a>
+    {{- end }}
+  {{- end }}
+</nav>
+{{- end }}

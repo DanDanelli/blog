@@ -1,28 +1,29 @@
 {{- /* One note in a list. Context: dict "page" <page> "compact" bool */ -}}
 {{- $p := .page }}
-{{- $track := index ($p.Params.categories | default (slice "Notes")) 0 }}
+{{- $track := index ($p.Params.categories | default (slice (i18n "notes"))) 0 }}
 {{- $project := partial "project-of.html" $p }}
 {{- $group := cond (ne $project false) $project.Title $track }}
 <article class="note{{ if .compact }} note-compact{{ end }}" data-group="{{ $group | urlize }}">
   <div class="note-meta">
     {{- with $project }}
     <a class="note-project track-{{ $track | urlize }}" href="{{ .RelPermalink }}">{{ .Title }}</a>
-    {{- with $p.Params.series_order }}<span class="note-chapter">Build note {{ . }}</span>{{ end }}
+    {{- with $p.Params.series_order }}<span class="note-chapter">{{ i18n "buildNote" (dict "N" .) }}</span>{{ end }}
     {{- else }}
-    <span class="track track-{{ $track | urlize }}">{{ $track }}</span>
+    <span class="track track-{{ $track | urlize }}">{{ partial "label.html" $track }}</span>
     {{- end }}
-    <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "Jan 2, 2006" }}</time>
-    {{- if $p.Draft }}<span class="draft-flag">Draft</span>{{ end }}
+    <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date | time.Format ":date_medium" }}</time>
+    {{- if ne $p.Language.Lang site.Language.Lang }}<span class="lang-flag" lang="{{ $p.Language.LanguageCode }}" title="{{ i18n "englishOnly" }}">{{ upper $p.Language.Lang }}</span>{{ end }}
+    {{- if $p.Draft }}<span class="draft-flag">{{ i18n "draft" }}</span>{{ end }}
   </div>
   <h3 class="note-title"><a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a></h3>
   {{- if not .compact }}
     {{- with $p.Summary }}<p class="note-summary">{{ . | plainify | safeHTML }}</p>{{ end }}
     {{- with $p.Params.takeaway }}
-    <p class="note-takeaway"><span>You'll take away</span> {{ . }}</p>
+    <p class="note-takeaway"><span>{{ i18n "youllTakeAway" }}</span> {{ . }}</p>
     {{- end }}
     {{- with $p.Params.tags }}
-    <ul class="tag-list" aria-label="Tags">
-      {{- range first 4 . }}<li><a href="{{ (site.GetPage (printf "/tags/%s" (. | urlize))).RelPermalink }}">#{{ . | lower }}</a></li>{{ end }}
+    <ul class="tag-list" aria-label="{{ i18n "tags" }}">
+      {{- range first 4 . }}<li><a href="{{ ($p.Site.GetPage (printf "/tags/%s" (. | urlize))).RelPermalink }}">#{{ . | lower }}</a></li>{{ end }}
     </ul>
     {{- end }}
   {{- end }}

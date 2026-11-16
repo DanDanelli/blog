@@ -1,0 +1,16 @@
+# -- Main menu (Português) --
+
+[[main]]
+  name = "Projetos"
+  pageRef = "/projects"
+  weight = 10
+
+[[main]]
+  name = "Notas"
+  pageRef = "/posts"
+  weight = 20
+
+[[main]]
+  name = "Sobre"
+  pageRef = "/about"
+  weight = 30

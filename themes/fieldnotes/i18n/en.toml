@@ -1,0 +1,96 @@
+# -- fieldnotes theme strings (English) --
+# Strings that carry HTML are passed through safeHTML by the templates.
+
+skipToContent = "Skip to content"
+homeLabel = "{{ .Title }}, home"
+mainMenu = "Main"
+language = "Language"
+englishOnly = "Available in English only"
+
+# Footer and sidebar
+writtenInPublic = "Written in public, one deployment at a time."
+builtWith = "Built with Hugo, hosted on GitHub Pages."
+whoWritesThis = "Who writes this"
+moreAboutMe = "More about me"
+whereToFindMe = "Where to find me"
+rssFeed = "RSS feed"
+
+# Home and lists
+projects = "Projects"
+allProjects = "All projects"
+latestNotes = "Latest notes"
+allNotes = "All notes"
+notes = "Notes"
+all = "All"
+filterByProject = "Filter by project"
+tags = "Tags"
+stack = "Stack"
+draft = "Draft"
+noNotesYet = "No notes here yet. New ones land here first, so check back soon or follow the <a href=\"{{ .RSS }}\">RSS feed</a>."
+
+# Notes
+buildNote = "Build note {{ .N }}"
+buildNoteOf = "Build note {{ .N }} of {{ .Total }}"
+youllTakeAway = "You'll take away"
+whatYoullTakeAway = "What you'll take away"
+updated = "Updated {{ .Date }}"
+breadcrumb = "Breadcrumb"
+seriesNavigation = "Series navigation"
+previousNote = "Previous note"
+nextNote = "Next note"
+relatedNotes = "Related notes"
+onThisPage = "On this page"
+partOf = "This is a note from building <a href=\"{{ .URL }}\">{{ .Title }}</a>. New to the project? <a href=\"{{ .URL }}\">Read the project overview</a> first."
+
+# Projects
+sourceCode = "Source code"
+readTheProject = "Read the project"
+atAGlance = "At a glance"
+notesFromTheBuild = "Notes from the build"
+latest = "Latest {{ .Date }}"
+latestLower = "latest {{ .Date }}"
+chaptersIntro = "What happened while building it, in the order it happened: the decisions, the reversals and what broke."
+firstNoteSoon = "The first note is on its way. Follow the <a href=\"{{ .RSS }}\">RSS feed</a> to get it when it lands."
+notesSoon = "Notes from the build start soon. Follow the <a href=\"{{ .RSS }}\">RSS feed</a> to get the first one."
+buildNotesSoon = "Build notes coming soon"
+
+# Misc
+notFoundTitle = "This page isn't on the map"
+notFoundIntro = "The link may be old or mistyped. Start from the <a href=\"{{ .Home }}\">home page</a> or browse <a href=\"{{ .Notes }}\">all notes</a>."
+linkToSection = "Link to this section"
+openFullSize = "Open full size"
+
+# Labels for front-matter values (track, status, category)
+label_work = "Work"
+label_lab = "Lab"
+label_rolling-out = "Rolling out"
+label_in-use = "In use"
+label_in-progress = "In progress"
+label_live = "Live"
+label_archived = "Archived"
+
+# Plurals: one / other
+
+[entries]
+one = "{{ .Count }} entry"
+other = "{{ .Count }} entries"
+
+[minRead]
+one = "{{ .Count }} min read"
+other = "{{ .Count }} min read"
+
+[allNotesFromBuild]
+one = "The note from the build"
+other = "All {{ .Count }} notes from the build"
+
+[buildNotes]
+one = "{{ .Count }} build note"
+other = "{{ .Count }} build notes"
+
+[notesFromTheBuildCount]
+one = "{{ .Count }} note from the build"
+other = "{{ .Count }} notes from the build"
+
+[allNNotes]
+one = "The only note"
+other = "All {{ .Count }} notes"

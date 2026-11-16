@@ -1,8 +1,9 @@
-{{- /* Returns the project a post belongs to (matched by series), or nil. Context: the post. */ -}}
+{{- /* Returns the project a post belongs to (matched by series), or false. Context: the post.
+       Prefers the project in the current language, falling back to the default language. */ -}}
 {{- $project := false }}
 {{- with .Params.series }}
   {{- $s := index . 0 }}
-  {{- range where site.RegularPages "Section" "projects" }}
+  {{- range partial "localized.html" (dict "section" "projects") }}
     {{- if in .Params.series $s }}{{ $project = . }}{{ end }}
   {{- end }}
 {{- end }}

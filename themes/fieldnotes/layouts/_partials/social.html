@@ -6,6 +6,6 @@
   </a></li>
   {{- end }}
   {{- with site.GetPage "/" }}{{ with .OutputFormats.Get "rss" }}
-  <li><a href="{{ .RelPermalink }}">{{ partial "icon.html" "rss" }}<span>RSS feed</span></a></li>
+  <li><a href="{{ .RelPermalink }}">{{ partial "icon.html" "rss" }}<span>{{ i18n "rssFeed" }}</span></a></li>
   {{- end }}{{ end }}
 </ul>

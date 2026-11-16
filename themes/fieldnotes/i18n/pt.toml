@@ -1,0 +1,95 @@
+# -- fieldnotes theme strings (Português do Brasil) --
+
+skipToContent = "Pular para o conteúdo"
+homeLabel = "{{ .Title }}, início"
+mainMenu = "Principal"
+language = "Idioma"
+englishOnly = "Disponível apenas em inglês"
+
+# Footer and sidebar
+writtenInPublic = "Escrito em público, um deploy de cada vez."
+builtWith = "Feito com Hugo, hospedado no GitHub Pages."
+whoWritesThis = "Quem escreve"
+moreAboutMe = "Mais sobre mim"
+whereToFindMe = "Onde me encontrar"
+rssFeed = "Feed RSS"
+
+# Home and lists
+projects = "Projetos"
+allProjects = "Todos os projetos"
+latestNotes = "Notas recentes"
+allNotes = "Todas as notas"
+notes = "Notas"
+all = "Todas"
+filterByProject = "Filtrar por projeto"
+tags = "Tags"
+stack = "Stack"
+draft = "Rascunho"
+noNotesYet = "Ainda não há notas aqui. As novas aparecem primeiro nesta página, então volte em breve ou acompanhe pelo <a href=\"{{ .RSS }}\">feed RSS</a>."
+
+# Notes
+buildNote = "Nota {{ .N }}"
+buildNoteOf = "Nota {{ .N }} de {{ .Total }}"
+youllTakeAway = "O que você leva"
+whatYoullTakeAway = "O que você vai levar daqui"
+updated = "Atualizado em {{ .Date }}"
+breadcrumb = "Navegação estrutural"
+seriesNavigation = "Navegação da série"
+previousNote = "Nota anterior"
+nextNote = "Próxima nota"
+relatedNotes = "Notas relacionadas"
+onThisPage = "Nesta página"
+partOf = "Esta é uma nota da construção de <a href=\"{{ .URL }}\">{{ .Title }}</a>. Novo no projeto? <a href=\"{{ .URL }}\">Leia a visão geral do projeto</a> primeiro."
+
+# Projects
+sourceCode = "Código-fonte"
+readTheProject = "Ler o projeto"
+atAGlance = "Em resumo"
+notesFromTheBuild = "Notas da construção"
+latest = "Mais recente: {{ .Date }}"
+latestLower = "mais recente: {{ .Date }}"
+chaptersIntro = "O que aconteceu durante a construção, na ordem em que aconteceu: as decisões, as mudanças de rumo e o que quebrou."
+firstNoteSoon = "A primeira nota está a caminho. Acompanhe pelo <a href=\"{{ .RSS }}\">feed RSS</a> para recebê-la quando sair."
+notesSoon = "As notas da construção começam em breve. Acompanhe pelo <a href=\"{{ .RSS }}\">feed RSS</a> para receber a primeira."
+buildNotesSoon = "Notas da construção em breve"
+
+# Misc
+notFoundTitle = "Esta página não está no mapa"
+notFoundIntro = "O link pode estar antigo ou com erro de digitação. Comece pela <a href=\"{{ .Home }}\">página inicial</a> ou veja <a href=\"{{ .Notes }}\">todas as notas</a>."
+linkToSection = "Link para esta seção"
+openFullSize = "Abrir em tamanho real"
+
+# Labels for front-matter values (track, status, category)
+label_work = "Trabalho"
+label_lab = "Lab"
+label_rolling-out = "Em implantação"
+label_in-use = "Em uso"
+label_in-progress = "Em andamento"
+label_live = "No ar"
+label_archived = "Arquivado"
+
+# Plurals: one / other
+
+[entries]
+one = "{{ .Count }} item"
+other = "{{ .Count }} itens"
+
+[minRead]
+one = "{{ .Count }} min de leitura"
+other = "{{ .Count }} min de leitura"
+
+[allNotesFromBuild]
+one = "A nota da construção"
+other = "Todas as {{ .Count }} notas da construção"
+
+[buildNotes]
+one = "{{ .Count }} nota"
+other = "{{ .Count }} notas"
+
+[notesFromTheBuildCount]
+one = "{{ .Count }} nota da construção"
+other = "{{ .Count }} notas da construção"
+
+[allNNotes]
+one = "A única nota"
+other = "Todas as {{ .Count }} notas"
