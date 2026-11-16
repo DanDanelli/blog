@@ -2,7 +2,7 @@
   <div class="wrap header-inner">
     <a class="wordmark" href="{{ site.Home.RelPermalink }}" aria-label="{{ site.Title }}, home">
       <span class="wordmark-name">{{ site.Params.author.short | default site.Title }}</span>
-      <span class="wordmark-tag">{{ site.Params.headerTag | default "from the field" }}</span>
+      {{- if not .IsHome }}<span class="wordmark-tag">{{ site.Params.headerTag | default "from the field" }}</span>{{ end }}
     </a>
     <nav class="site-nav" aria-label="Main">
       {{- $current := . }}
