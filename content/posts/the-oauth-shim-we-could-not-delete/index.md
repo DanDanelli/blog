@@ -1,7 +1,7 @@
 ---
 title: "The OAuth shim we couldn't delete"
 date: 2026-11-13T00:03:00Z
-draft: true
+draft: false
 description: "Why Claude Desktop can't sign in to an AgentCore Gateway MCP endpoint with Microsoft Entra ID (AADSTS9010010), the three workarounds we tried, and why the small OAuth shim we built to bridge the gap became the one component we can't remove."
 summary: "AADSTS9010010, three workarounds, two reverted cutovers, and a one-character difference that turned a temporary OAuth shim into a load-bearing part of the platform."
 series: ["Claude on AWS, the hard way"]

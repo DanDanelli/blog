@@ -1,7 +1,7 @@
 ---
 title: "Observability without leaking"
 date: 2026-11-13T00:05:00Z
-draft: true
+draft: false
 description: "Turning on one log delivery wrote every caller's JWT into CloudWatch in clear text. How the platform's observability was rebuilt around that: prompt logging off by decision, redaction that matches the shape of a secret, a pre-flight for every sink, a log field that stored company content, and an alarm that could never fire."
 summary: "The token that landed in CloudWatch, the record that proves who did what and leaks how they proved it, and what a written pre-flight for every sink found that the controls didn't."
 series: ["Claude on AWS, the hard way"]
