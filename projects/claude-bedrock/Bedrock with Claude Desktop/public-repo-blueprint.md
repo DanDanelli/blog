@@ -87,16 +87,16 @@ Treat sanitization as a build gate, not a vibe. Concretely:
 
 | Internal thing | Public placeholder |
 |---|---|
-| Company name (my employer) | `your-org` / "an enterprise tenant" |
-| AWS account `123456789012` | `123456789012` (the canonical AWS docs dummy) |
-| Internal repo `your-org/<repo>` | `<repo>` / `your-org/...` |
+| Company name | `your-org` / "an enterprise tenant" |
+| Real AWS account IDs | `123456789012` (the canonical AWS docs dummy) |
+| Internal repo slugs | `<repo>` / `your-org/...` |
 | Entra tenant / client IDs | `YOUR_TENANT_ID`, `YOUR_CLIENT_ID` env vars |
 | Real ARNs, hostnames, S3 buckets | `example.com`, `arn:aws:...:123456789012:...` |
 | SharePoint sites / Jira cloud IDs | example/stub values in `*.example.tfvars` |
 
 **Mechanics:**
 - Every environment-specific value is a **Terraform variable** or **env var** with an `*.example.tfvars` / `.env.example` showing the shape. The real ones live only on the user's disk and are `.gitignore`d.
-- Add `scripts/check-sanitization.sh` to CI: a denylist grep for `my employer`, the account number, internal domains, etc. The build **fails** if any reappear. This is your seatbelt against an accidental paste.
+- Add `scripts/check-sanitization.sh` to CI: a denylist grep for the company name, account numbers, internal domains, etc. (kept in a git-ignored file, never in the repo). The build **fails** if any reappear. This is your seatbelt against an accidental paste.
 - Add a secret scanner to CI (gitleaks / `detect-secrets`) — you already use `.secrets.baseline` internally, so port that habit.
 - Where a real downstream API would be needed to demo (Graph, Jira), ship either a **stub server** in `examples/` or document pointing it at a free-tier/public OData endpoint, so "deployable" doesn't mean "you must have an enterprise tenant to try it."
 

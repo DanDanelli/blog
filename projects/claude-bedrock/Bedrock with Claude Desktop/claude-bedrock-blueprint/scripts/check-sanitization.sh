@@ -4,8 +4,10 @@
 # leaks into the public repo. This is the seatbelt against an accidental paste from an
 # internal source tree.
 #
-# Edit DENYLIST below to match the things that must NEVER appear publicly. Keep entries
-# lowercase; the grep is case-insensitive.
+# Real forbidden values (company name, account IDs, repo slugs) must not live in this
+# file, or the public repo leaks the very thing it protects. Put them, one per line, in
+# .sanitization-denylist at the repo root (git-ignored) or pass a path in
+# SANITIZATION_DENYLIST. Lines starting with # are ignored; the grep is case-insensitive.
 #
 # Usage:  ./scripts/check-sanitization.sh
 # Exit:   0 = clean, 1 = a forbidden token was found.
@@ -16,15 +18,19 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO_ROOT"
 
 # --- Forbidden literal tokens (case-insensitive) ----------------------------------------
-# Add your real org name, internal domains, and any private repo slugs here.
+# Generic tokens only here; real values come from the git-ignored denylist file.
 DENYLIST=(
-  "my employer"
-  "your-org"
-  "123456789012"          # a real AWS account number
-  "123456789012"          # a real AWS account number (Bedrock federated role)
   ".onmicrosoft.com"      # real tenant vanity domains
-  "<internal-repo>"   # internal repo slug
 )
+DENYLIST_FILE="${SANITIZATION_DENYLIST:-$REPO_ROOT/.sanitization-denylist}"
+if [[ -f "$DENYLIST_FILE" ]]; then
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    line="${line%%#*}"; line="${line//[[:space:]]/}"
+    [[ -n "$line" ]] && DENYLIST+=("$line")
+  done < "$DENYLIST_FILE"
+else
+  echo "warning: no denylist file at $DENYLIST_FILE; only generic checks will run" >&2
+fi
 
 # --- Forbidden patterns (extended regex) ------------------------------------------------
 # Catches the *shape* of real identifiers even when the exact value isn't known.
