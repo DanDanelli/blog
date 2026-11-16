@@ -24,7 +24,7 @@ defaultContentLanguage = "en"
       [languages.en.params.author]
         name = "Daniel Miranda Danelli"
         headline = "Cloud Architect & Learner"
-        bio = "Sharing my technical journey with the world."
+        bio = "Designing platforms on AWS and exploring where AI actually helps."
         links = [
           { github = "https://github.com/DanDanelli" },
           { linkedin = "https://www.linkedin.com/in/daniel-m-danelli-92909b34/" },
