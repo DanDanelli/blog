@@ -1,0 +1,18 @@
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="wordmark" href="{{ site.Home.RelPermalink }}" aria-label="{{ site.Title }}, home">
+      <span class="wordmark-name">{{ site.Params.author.short | default site.Title }}</span>
+      {{- if not .IsHome }}<span class="wordmark-tag">{{ site.Params.headerTag | default "from the field" }}</span>{{ end }}
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      {{- $current := . }}
+      {{- $section := .Section }}
+      {{- if and .IsPage (eq .Section "posts") (ne (partial "project-of.html" .) false) }}{{ $section = "projects" }}{{ end }}
+      {{- range site.Menus.main }}
+        {{- $active := $current.IsMenuCurrent "main" . }}
+        {{- with .Page }}{{ if and (not $active) (eq $section .Section) (ne $current.Kind "home") (ne .Section "") }}{{ $active = true }}{{ end }}{{ end }}
+        <a href="{{ .URL }}"{{ if $active }} aria-current="page"{{ end }}>{{ .Name }}</a>
+      {{- end }}
+    </nav>
+  </div>
+</header>

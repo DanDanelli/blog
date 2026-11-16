@@ -1,0 +1,12 @@
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="footer-about">
+      <p class="footer-name">{{ site.Params.author.name }}</p>
+      <p class="muted">{{ site.Params.tagline }}. Written in public, one deployment at a time.</p>
+    </div>
+    {{ partial "social.html" (dict "class" "footer-links") }}
+    <p class="footer-meta muted">
+      © {{ now.Year }} {{ site.Params.author.name }}. Built with Hugo, hosted on GitHub Pages.
+    </p>
+  </div>
+</footer>

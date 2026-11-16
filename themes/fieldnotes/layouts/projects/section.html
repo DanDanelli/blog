@@ -1,0 +1,13 @@
+{{ define "main" }}
+<section class="page-head grid-paper">
+  <div class="wrap">
+    <h1 class="page-title">{{ .Title }}</h1>
+    {{- with .Content }}<div class="page-intro">{{ . }}</div>{{ end }}
+  </div>
+</section>
+<section class="wrap list-body">
+  <div class="panel-stack">
+    {{- range .Pages.ByWeight }}{{ partial "project-panel.html" . }}{{ end }}
+  </div>
+</section>
+{{ end }}

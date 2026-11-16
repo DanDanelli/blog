@@ -1,6 +1,6 @@
 ---
-title: "Welcome to my Portfolio"
-description: "Studies, projects, and experiences of a developer in constant learning."
+title: "Home"
+description: "Notes and projects from a cloud architect: what the docs said, what production did, and what I'd do next time."
 ---
 
-Here you will find a selection of my main projects and technical articles. Feel free to explore!
+I design cloud platforms and build with AI, and I write down what production teaches me. Here you'll find the notes and the projects behind them.

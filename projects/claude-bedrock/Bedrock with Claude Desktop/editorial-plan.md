@@ -1,13 +1,17 @@
 # Editorial Plan — "Claude on Bedrock → AWS AI Framework"
 
+> **Superseded 2026-11-13.** This series was dropped and its draft posts deleted. The project is now
+> told by "Claude on AWS, the hard way" — see `../Claude on AWS v1.8/editorial-plan.md`.
+
 *Language: English. Audience: layered (each post opens accessible, then goes deep). The deep
 implementation lives in the companion repo; the blog tells the story and links to the code.*
 
 > **Revision note.** This plan was deliberately shrunk from an earlier 13-post series. That
 > version was technically complete but too long to write and too long to follow — a 13-part
 > series risks being abandoned half-finished. The implementation detail already lives in the
-> companion repo, so the blog doesn't need to re-document it. The shape below is **flagship +
-> a few consolidated deep posts**, designed to be finishable.
+> companion repo, so the blog doesn't need to re-document it. The shape below is a **6-post
+> narrative arc**, designed to be finishable. (It also replaced an interim "flagship + deep
+> dives" cut — see §2.)
 
 ---
 
@@ -38,17 +42,24 @@ run through everything and are the editorial voice:
 
 ---
 
-## 2. Structure: flagship + consolidated deep posts
+## 2. Structure: a 6-post narrative arc
+
+Settled after iterating: a chronological, narrative series (more accessible than a
+flagship + deep-dives hub), each post a theme rather than a single finding.
 
 ```
-FLAGSHIP   ── 1 post  ── "What I learned taking Claude Code on Bedrock to production"
-ACT I      ── 3 posts ── consolidated deep dives (the production findings)
-ACT II     ── 1 post  ── "Generalizing it: going AgentCore-native"
+1. Why we run Claude Code on Amazon Bedrock          (motivation)
+2. The architecture of Claude Code on Bedrock        (two pillars, AWS Guidance baseline)
+3. Getting Claude Code onto a fleet machine          (Pillar 1: latency + packaging + shipping)
+4. Working with App Registration and Entra ID        (Pillar 2 inbound: App Reg, admin consent, DCR)
+5. Custom MCPs for Jira, Confluence and Office 365    (Pillar 2 servers: design, $ finding, outbound auth)
+6. Why an AI framework is the better answer          (Act II — the framework)
 ```
 
-**~5 posts**, not 13. Each deep post is self-contained (a reader arriving from a search gets
-full value) and is a *theme*, not a single finding. The flagship is what most people read;
-the deep posts are reference + SEO + proof of depth; the repo carries the rest.
+**6 posts**, not 13. The order follows the story: why → architecture → the two pillars taken
+apart → why it points to a framework. Each post is self-contained (a reader arriving from a
+search gets full value) and keeps the searchable error-string anchors inside it. The repo
+carries the deep detail (ADRs + component READMEs); posts link to it.
 
 ### What lives in the repo, not in a post
 The narrow/niche findings become repo content (`docs/adr/` + component READMEs), not posts:
@@ -56,57 +67,46 @@ the `$`-schema mechanics in detail, Cedar policy, the framework's profile model,
 ADRs. Posts *link* to these.
 
 ### Cadence
-One post every 1–2 weeks. The flagship and Act I are drafted as a batch so cross-references
-are coherent; publish the flagship first, then the deep posts.
+One post every 1–2 weeks, published in series order. All six are drafted as a batch so the
+cross-references are coherent.
 
 ---
 
 ## 3. The posts
 
-### FLAGSHIP — "What I learned taking Claude Code on Bedrock to production"
-- *Audience:* broad. The journey and the lessons, light on mechanism.
-- *Covers:* why Bedrock (governance, data residency, existing AWS footprint); the two-pillar
-  architecture at a glance; the AWS Guidance baseline + what we improved; the docs-vs-reality
-  throughline; a short tour of each lesson with a link to the deep post that unpacks it.
-- *Ends:* pointer to the companion repo for runnable code.
+**1 — "Why we run Claude Code on Amazon Bedrock"** *(motivation)*
+- Public API vs. Bedrock for an enterprise: governance, attribution, not standing up a
+  parallel trust model. What's hard (the locked-down fleet machine). The three-act journey.
 
-### ACT I — deep dives (3)
+**2 — "The architecture of Claude Code on Bedrock"**
+- The two pillars; the corrected diagram (Entra ID lives in Azure; direct Entra→STS
+  federation, no Cognito); the AWS Guidance baseline + what we improved; the docs-vs-reality
+  throughline. *Code:* `companion repo` root.
 
-**D1 — "Getting Claude Code onto a fleet machine: latency and a packaging trap"**
-- *Theme:* the credential binary (Pillar 1, client side) — the two problems that hit only on
-  the fleet, not on dev machines.
-- *Merges:* the 11-second hello (per-request credential federation → a stdlib DPAPI-cached
-  shim, ~11s→~3s) **+** the Nuitka war story (`cryptography._rust` non-deterministically
-  dropped → explicit includes, in two build paths).
-- *Searchable anchors to preserve:* `cryptography.hazmat.bindings._rust ImportError`; the
-  "~1.7s per AssumeRoleWithWebIdentity" figure.
-- *Code:* `credential-shim/`, `distribution/` (patches).
+**3 — "Getting Claude Code onto a fleet machine"** *(Pillar 1)*
+- The 11-second hello (per-request federation → a stdlib DPAPI-cached shim, ~11s→~3s); the
+  Nuitka `cryptography._rust` trap (explicit includes, in two build paths); shipping via the
+  `ccwb` lifecycle and our additions.
+- *Searchable anchors:* `cryptography.hazmat.bindings._rust ImportError`; ~1.7s per
+  `AssumeRoleWithWebIdentity`. *Code:* `credential-shim/`, `distribution/`.
 
-**D2 — "Authentication end to end: getting Claude in, and acting as the user"**
-- *Theme:* the whole identity story — inbound (Claude → your MCP server) and outbound (server
-  → downstream API as the user).
-- *Merges:* the Entra App Registration settings + the **DCR problem** and shim (inbound) **+**
-  the admin-consent gotcha **+** OBO vs a managed token vault, same-tenant vs cross-vendor
-  (outbound).
-- *Searchable anchors:* the App Registration setting table; "Entra doesn't implement DCR";
-  the "admin consent required: No" trap.
-- *Code:* `dcr-shim/`, `mcp-servers/examples/` (OBO + 3LO).
+**4 — "Working with App Registration and Entra ID"** *(Pillar 2, inbound)*
+- The App Registration setting-by-setting; the "admin consent required: No" trap; the DCR
+  problem (Entra doesn't implement DCR) and the shim that bridges it.
+- *Searchable anchors:* the App Registration table; "Entra doesn't implement DCR". *Code:*
+  `dcr-shim/`.
 
-**D3 — "A declarative MCP server, and shipping it to a fleet"**
-- *Theme:* the capability layer and how it reaches a laptop.
-- *Merges:* the declarative YAML registry over a generic REST dispatcher **+** the `$`-in-
-  schema finding (kept as a clearly-anchored section) **+** the `ccwb` distribution lifecycle
-  (AWS Guidance) and our additions.
+**5 — "Custom MCPs for Jira, Confluence and Office 365"** *(Pillar 2, servers)*
+- Why custom (auth as the user, scope control, ours to run); the declarative YAML-over-REST
+  design; the `$`-in-schema finding (Bedrock-side validation); outbound auth — OBO
+  (same-tenant) vs a managed broker (cross-vendor).
 - *Searchable anchors:* `Property keys should match pattern '^[a-zA-Z0-9_.-]{1,64}$'`.
-- *Code:* `rest-mcp-proxy/`.
+  *Code:* `rest-mcp-proxy/`, `mcp-servers/examples/`.
 
-### ACT II — "Generalizing it: going AgentCore-native" (1, to write)
-- *Theme:* the mindset shift from one deployment to a reusable platform, and the single
-  biggest architectural payoff: from a monolithic Lambda to a Gateway-native composition with
-  Lambda only for the irreducible gaps (interceptor, DCR bridge).
-- *Folds in lightly:* the three-axis model (profiles / archetypes / foundation), de-risking
-  with live sandbox gates, and Cedar-policy-is-opt-in — each a paragraph, not a post. The
-  detail lives in the framework's ADRs in the repo.
+**6 — "Why an AI framework is the better answer"** *(Act II)*
+- From a project to a platform (framework plane vs. project plane); the monolith → gateway-
+  native shift (Lambda only for the irreducible gaps); de-risk with live sandbox gates; safe
+  defaults. The detail lives in the framework's ADRs in the repo.
 - *Code:* `part-2-aws-ai-framework/` + `docs/adr/`.
 
 ---
@@ -153,7 +153,8 @@ Resolved (was an open question in the first draft):
 the distribution patches, the declarative `rest-mcp-proxy`, the `dcr-shim`. Part 2 (Terraform
 modules + Python package) scaffolded. CI sanitization + secret gates in place.
 
-**Blog drafts:** the flagship + the 3 Act I deep posts are drafted (consolidated from the
-earlier atomic drafts, which are archived). Act II's single narrative post is still to write.
+**Blog drafts:** all six posts are drafted (`draft: true`), in series order 1–6, with valid
+cross-links and `REPO_URL` placeholders. Company kept generic; leak-checked clean.
 
-**Next:** finalize the 4 drafts, write the Act II post, then publish flagship → D1 → D2 → D3.
+**Next:** review/finalize the six drafts, then publish in order (1 → 6). When the companion
+repo goes public, find-and-replace `REPO_URL`. Get employer sign-off before publishing.

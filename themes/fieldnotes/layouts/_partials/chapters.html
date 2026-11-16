@@ -1,0 +1,6 @@
+{{- /* Returns the chapters (posts) of a project, in reading order. Context: the project page. */ -}}
+{{- $chapters := slice }}
+{{- with .Params.series }}
+  {{- $chapters = sort (where (where site.RegularPages "Section" "posts") "Params.series" "intersect" .) "Params.series_order" }}
+{{- end }}
+{{- return $chapters }}
