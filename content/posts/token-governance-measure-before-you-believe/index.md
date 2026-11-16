@@ -1,7 +1,7 @@
 ---
 title: "Token governance: measure before you believe"
 date: 2026-11-13T00:06:00Z
-draft: true
+draft: false
 description: "Putting per-person spend limits on Claude through Amazon Bedrock: an AWS-native option against Anthropic's Claude Apps Gateway, what a proof measured about spend caps, telemetry and the AWS bill, and how removing identity from metrics quietly undercounted tokens."
 summary: "Two ways to cap what one person spends on Claude in Bedrock, a proof that measured both, a spend cap that turned out to be a brake, telemetry that misses the app's own calls, and an allow-list that silently dropped data."
 series: ["Claude on AWS, the hard way"]

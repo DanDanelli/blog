@@ -1,7 +1,7 @@
 ---
 title: "Every tool acts as the user, and what that costs"
 date: 2026-11-13T00:02:00Z
-draft: true
+draft: false
 description: "The rule that shaped the whole platform: no tool acts with its own identity. What it cost to make AgentCore Gateway forward the user's token and still authorise per tool: three reversals in two days, a token in the request body, and a Lambda that can't be removed."
 summary: "Why every tool acts with the user's identity, the gateway that at first refused to forward it, the three reversals it took to get both identity and per-tool policy, and what the workaround cost until it could be retired."
 series: ["Claude on AWS, the hard way"]

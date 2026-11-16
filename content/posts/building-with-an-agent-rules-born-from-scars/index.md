@@ -1,7 +1,7 @@
 ---
 title: "Building with an agent: rules born from scars"
 date: 2026-11-13T00:09:00Z
-draft: true
+draft: false
 description: "Most of this platform's investigation was done with Claude Code as a working partner. The four working rules that came out of it, each with the mistake that produced it: evidence is not truth, pre-flight every sink, try to break a design first, and leave organisational facts to humans."
 summary: "Four working rules for building infrastructure with a coding agent, each written next to the mistake that produced it, and why the real problem they solve is speed, not AI."
 series: ["Claude on AWS, the hard way"]

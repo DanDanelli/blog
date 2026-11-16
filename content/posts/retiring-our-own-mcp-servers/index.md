@@ -1,7 +1,7 @@
 ---
 title: "Retiring our own MCP servers"
 date: 2026-11-13T00:04:00Z
-draft: true
+draft: false
 description: "We started with two MCP servers of our own and ended with none. How SAP LeanIX, Microsoft 365 and Atlassian each reached AgentCore Gateway without a container: a pinned catalogue we wrote and deleted, an OpenAPI schema, a vendor server, and the vendor defects that came with it."
 summary: "Three tool integrations, three different routes to no container, the rule that decided each one, and what a vendor's MCP server costs in policy granularity and in defects you work around instead of chasing."
 series: ["Claude on AWS, the hard way"]

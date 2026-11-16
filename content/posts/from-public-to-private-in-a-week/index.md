@@ -1,7 +1,7 @@
 ---
 title: "From public to private in a week"
 date: 2026-11-13T00:07:00Z
-draft: true
+draft: false
 description: "We proved Anthropic's Claude Apps Gateway worked on an internet-facing endpoint, then moved it to a private one. What 'private' turned into: a Transit Gateway shared with a hundred other VPCs, NAT for Entra, internal DNS, a resident environment, and a dry run that proved nothing."
 summary: "A gateway that worked in public and had to be private, the six decisions hiding inside the word 'private', and why a shared route table made one security group the only boundary."
 series: ["Claude on AWS, the hard way"]

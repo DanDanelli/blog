@@ -1,7 +1,7 @@
 ---
 title: "The client: one key instead of a package"
 date: 2026-11-13T00:08:00Z
-draft: true
+draft: false
 description: "With Anthropic's Claude Apps Gateway in front of Bedrock, a device needs one setting instead of an installer. How Claude Desktop and Claude Code reach the gateway on managed and unmanaged devices, what you lose outside MDM, and the client behaviours that fail without a word."
 summary: "From an installer per environment to a single bootstrap URL, the two routes onto a device, what the gateway enforces either way, and a catalogue of silent client failures."
 series: ["Claude on AWS, the hard way"]

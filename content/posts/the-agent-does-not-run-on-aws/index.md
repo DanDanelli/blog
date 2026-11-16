@@ -1,7 +1,7 @@
 ---
 title: "The agent doesn't run on AWS"
 date: 2026-11-13T00:01:00Z
-draft: true
+draft: false
 description: "The opening of a series on running Claude through Amazon Bedrock for an enterprise. The first decisions were mostly about what not to build: no hosted agents, no vector index, no autonomous phase, no value baseline, each written down with what would reverse it."
 summary: "What the platform is, why the agent loop stays on the user's machine, the AgentCore services we took and the ones we didn't, and the debts we chose to carry in writing."
 series: ["Claude on AWS, the hard way"]
