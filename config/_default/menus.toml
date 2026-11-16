@@ -1,35 +1,16 @@
-# -- Main Menu --
+# -- Main menu --
 
 [[main]]
   name = "Projects"
-  pageRef = "projects"
+  pageRef = "/projects"
   weight = 10
 
 [[main]]
-  name = "Posts"
-  pageRef = "posts"
+  name = "Notes"
+  pageRef = "/posts"
   weight = 20
 
 [[main]]
   name = "About"
-  pageRef = "about"
+  pageRef = "/about"
   weight = 30
-
-[[main]]
-  identifier = "github"
-  pre = "github"
-  url = "https://github.com/your-user"
-  weight = 40
-
-[[main]]
-  identifier = "linkedin"
-  pre = "linkedin"
-  url = "https://linkedin.com/in/your-profile"
-  weight = 50
-
-# -- Footer Menu --
-
-[[footer]]
-  name = "Tags"
-  pageRef = "tags"
-  weight = 10

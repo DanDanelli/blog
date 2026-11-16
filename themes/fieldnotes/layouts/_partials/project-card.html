@@ -1,0 +1,16 @@
+{{- $notes := partial "chapters.html" . }}
+<article class="project-card">
+  <div class="project-head">
+    {{- with .Params.status }}<span class="status status-{{ . | urlize }}">{{ . }}</span>{{ end }}
+    {{- with .Params.track }}<span class="track track-{{ . | urlize }}">{{ . }}</span>{{ end }}
+  </div>
+  <h3 class="project-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+  {{- with .Params.description }}<p>{{ . }}</p>{{ end }}
+  {{- with .Params.stack }}
+  <ul class="stack" aria-label="Stack">{{ range . }}<li>{{ . }}</li>{{ end }}</ul>
+  {{- end }}
+  <p class="project-foot muted">
+    {{- if $notes }}{{ len $notes }} {{ cond (eq (len $notes) 1) "build note" "build notes" }}{{ else }}Build notes coming soon{{ end }}
+    {{- with .Params.repo }} <span class="sep" aria-hidden="true">/</span> <a href="{{ . }}" rel="noopener" target="_blank">Source code</a>{{ end }}
+  </p>
+</article>

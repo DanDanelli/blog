@@ -1,0 +1,23 @@
+<aside class="sidebar">
+  <section class="side-block">
+    <h2 class="side-title">Who writes this</h2>
+    <div class="who">
+      {{- with resources.Get "img/avatar.jpg" }}
+        {{- $img := .Fill "192x192 Center webp" }}
+        <img class="avatar" src="{{ $img.RelPermalink }}" width="96" height="96" alt="{{ site.Params.author.name }}">
+      {{- else }}
+        <span class="avatar avatar-mono" aria-hidden="true">{{ site.Params.author.initials | default "DD" }}</span>
+      {{- end }}
+      <div>
+        <p class="who-name">{{ site.Params.author.name }}</p>
+        <p class="muted">{{ site.Params.author.headline }}</p>
+      </div>
+    </div>
+    <p>{{ site.Params.author.bio }}</p>
+    {{ with site.GetPage "/about" }}<a class="text-link" href="{{ .RelPermalink }}">More about me</a>{{ end }}
+  </section>
+  <section class="side-block">
+    <h2 class="side-title">Where to find me</h2>
+    {{ partial "social.html" (dict "class" "side-links") }}
+  </section>
+</aside>

@@ -1,0 +1,11 @@
+{{- /* Expects dict "class" */ -}}
+<ul class="{{ .class }}">
+  {{- range site.Params.social }}
+  <li><a href="{{ .url }}"{{ if hasPrefix .url "http" }} rel="me noopener" target="_blank"{{ end }}>
+    {{ partial "icon.html" .icon }}<span>{{ .name }}</span>
+  </a></li>
+  {{- end }}
+  {{- with site.GetPage "/" }}{{ with .OutputFormats.Get "rss" }}
+  <li><a href="{{ .RelPermalink }}">{{ partial "icon.html" "rss" }}<span>RSS feed</span></a></li>
+  {{- end }}{{ end }}
+</ul>

@@ -1,0 +1,7 @@
+name = "fieldnotes"
+license = "MIT"
+description = "A blueprint-ink editorial theme for Daniel M. Danelli's field notes on cloud & AI."
+min_version = "0.146.0"
+
+[author]
+  name = "Daniel M. Danelli"

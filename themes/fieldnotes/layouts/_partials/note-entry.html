@@ -1,0 +1,29 @@
+{{- /* One note in a list. Context: dict "page" <page> "compact" bool */ -}}
+{{- $p := .page }}
+{{- $track := index ($p.Params.categories | default (slice "Notes")) 0 }}
+{{- $project := partial "project-of.html" $p }}
+{{- $group := cond (ne $project false) $project.Title $track }}
+<article class="note{{ if .compact }} note-compact{{ end }}" data-group="{{ $group | urlize }}">
+  <div class="note-meta">
+    {{- with $project }}
+    <a class="note-project track-{{ $track | urlize }}" href="{{ .RelPermalink }}">{{ .Title }}</a>
+    {{- with $p.Params.series_order }}<span class="note-chapter">Build note {{ . }}</span>{{ end }}
+    {{- else }}
+    <span class="track track-{{ $track | urlize }}">{{ $track }}</span>
+    {{- end }}
+    <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "Jan 2, 2006" }}</time>
+    {{- if $p.Draft }}<span class="draft-flag">Draft</span>{{ end }}
+  </div>
+  <h3 class="note-title"><a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a></h3>
+  {{- if not .compact }}
+    {{- with $p.Summary }}<p class="note-summary">{{ . | plainify | safeHTML }}</p>{{ end }}
+    {{- with $p.Params.takeaway }}
+    <p class="note-takeaway"><span>You'll take away</span> {{ . }}</p>
+    {{- end }}
+    {{- with $p.Params.tags }}
+    <ul class="tag-list" aria-label="Tags">
+      {{- range first 4 . }}<li><a href="{{ (site.GetPage (printf "/tags/%s" (. | urlize))).RelPermalink }}">#{{ . | lower }}</a></li>{{ end }}
+    </ul>
+    {{- end }}
+  {{- end }}
+</article>

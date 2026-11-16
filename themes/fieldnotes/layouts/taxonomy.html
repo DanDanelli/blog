@@ -1,0 +1,14 @@
+{{ define "main" }}
+<section class="page-head grid-paper">
+  <div class="wrap">
+    <h1 class="page-title">{{ .Title }}</h1>
+  </div>
+</section>
+<section class="wrap list-body narrow">
+  <ul class="term-cloud">
+    {{- range .Data.Terms.ByCount }}
+    <li><a href="{{ .Page.RelPermalink }}">{{ if eq $.Data.Plural "tags" }}#{{ .Page.Title | lower }}{{ else }}{{ .Page.Title }}{{ end }} <span>{{ .Count }}</span></a></li>
+    {{- end }}
+  </ul>
+</section>
+{{ end }}

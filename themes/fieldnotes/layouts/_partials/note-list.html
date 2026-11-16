@@ -1,0 +1,26 @@
+{{- /* dict "pages" <pages> "filters" bool "compact" bool */ -}}
+{{- $pages := .pages }}
+{{- $compact := .compact | default false }}
+{{- if .filters }}
+  {{- $names := newScratch }}{{ $counts := newScratch }}
+  {{- range $pages }}
+    {{- $project := partial "project-of.html" . }}
+    {{- $name := cond (ne $project false) $project.Title (index (.Params.categories | default (slice "Notes")) 0) }}
+    {{- $names.Set ($name | urlize) $name }}
+    {{- $counts.Add ($name | urlize) 1 }}
+  {{- end }}
+  {{- if gt (len $names.Values) 1 }}
+  <div class="filters" role="group" aria-label="Filter by project">
+    <button type="button" class="filter" data-filter="all" aria-pressed="true">All <span>{{ len $pages }}</span></button>
+    {{- range $key, $name := $names.Values }}
+    <button type="button" class="filter" data-filter="{{ $key }}" aria-pressed="false">{{ $name }} <span>{{ $counts.Get $key }}</span></button>
+    {{- end }}
+  </div>
+  {{- end }}
+{{- end }}
+<div class="note-list">
+  {{- range $pages }}{{ partial "note-entry.html" (dict "page" . "compact" $compact) }}{{ end }}
+  {{- if not $pages }}
+  <p class="empty">No notes here yet. New ones land here first, so check back soon or follow the <a href="{{ "index.xml" | relURL }}">RSS feed</a>.</p>
+  {{- end }}
+</div>
