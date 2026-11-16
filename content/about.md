@@ -7,7 +7,7 @@ I'm Daniel Miranda Danelli, a cloud architect. Most of my work is designing plat
 
 ## Why this site exists
 
-Documentation tells you how things should work. Production tells you how they do. The gap between the two is where most of my time goes, and it's rarely written down. These notes are my attempt to write it down: the symptom, why it mattered, how it actually works, and the lesson worth keeping.
+Documentation tells you how things should work. Production tells you how they do. The gap between the two is where most of my time goes, and it's rarely written down. This site is my attempt to close it, in two ways: notes that capture the symptom, why it mattered, how it actually works and the lesson worth keeping, and projects that show the whole thing built end to end.
 
 ## What you'll find here
 
