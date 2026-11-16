@@ -58,7 +58,12 @@ body {
   color: var(--text);
   font: 400 1.0625rem/1.65 var(--font-body);
   -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
+#main { flex: 1 0 auto; }
 img, svg { max-width: 100%; height: auto; }
 a { color: inherit; text-decoration-color: var(--redline); text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
 a:hover { color: var(--redline); }
