@@ -17,7 +17,7 @@ homeProjects = 3
   short = "Daniel M. Danelli"
   initials = "DD"
   headline = "Cloud architect"
-  bio = "I design cloud platforms for a living and build AI projects at home. These notes are what I learned along the way, including the parts that didn't go to plan."
+  bio = "Cloud architect working on AWS platforms, governance and agentic solutions. Usually tinkering with AI on the side."
 
 # Shown in the sidebar and footer. Icons: github, linkedin, rss, mail
 [[social]]
