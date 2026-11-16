@@ -101,7 +101,6 @@ a:hover { color: var(--redline); }
 
 /* ---------- Hero ---------- */
 .hero { padding-block: clamp(3.5rem, 9vw, 6.5rem) clamp(2.5rem, 6vw, 4rem); }
-.hero-name { margin: 0 0 1rem; font: 500 0.95rem/1 var(--font-mono); color: var(--muted); }
 .hero-title {
   margin: 0;
   max-width: 13ch;
