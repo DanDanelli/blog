@@ -3,7 +3,7 @@ title: "Claude na AWS"
 description: "Claude para uma empresa inteira através do Amazon Bedrock: Claude Desktop e Claude Code atrás de um Claude Apps Gateway privado, ferramentas atrás do AgentCore Gateway com uma política Cedar, e toda chamada de ferramenta feita como o usuário."
 draft: false
 weight: 10
-status: "Rolling out"
+status: "Deployed"
 track: "Work"
 series: ["Claude on AWS, the hard way"]
 stack: ["Amazon Bedrock", "Claude Apps Gateway", "AgentCore Gateway", "AgentCore Identity", "Cedar", "Entra ID", "MCP", "Terraform"]

@@ -66,6 +66,7 @@ label_rolling-out = "Em implantação"
 label_in-use = "Em uso"
 label_in-progress = "Em andamento"
 label_live = "No ar"
+label_deployed = "Implantado"
 label_archived = "Arquivado"
 
 # Plurals: one / other
