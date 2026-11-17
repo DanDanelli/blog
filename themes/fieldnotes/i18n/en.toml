@@ -67,6 +67,7 @@ label_rolling-out = "Rolling out"
 label_in-use = "In use"
 label_in-progress = "In progress"
 label_live = "Live"
+label_deployed = "Deployed"
 label_archived = "Archived"
 
 # Plurals: one / other

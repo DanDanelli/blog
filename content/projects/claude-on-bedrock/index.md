@@ -3,7 +3,7 @@ title: "Claude on AWS"
 description: "Claude for a whole company through Amazon Bedrock: Claude Desktop and Claude Code behind a private Claude Apps Gateway, tools behind AgentCore Gateway with a Cedar policy, and every tool call made as the user."
 draft: false
 weight: 10
-status: "Rolling out"
+status: "Deployed"
 track: "Work"
 series: ["Claude on AWS, the hard way"]
 stack: ["Amazon Bedrock", "Claude Apps Gateway", "AgentCore Gateway", "AgentCore Identity", "Cedar", "Entra ID", "MCP", "Terraform"]
@@ -16,7 +16,7 @@ An enterprise platform that puts Claude in front of a whole company, with the mo
 
 | | |
 |---|---|
-| **Users** | The whole company, planned for a few hundred people |
+| **Users** | The whole company, a few hundred people |
 | **Clients** | Claude Desktop (Chat, Cowork, Code) and the Claude Code CLI |
 | **Model** | Claude on Amazon Bedrock, EU inference profiles only |
 | **Tools** | Microsoft 365 and SharePoint, Jira and Confluence, SAP LeanIX |

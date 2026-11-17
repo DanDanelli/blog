@@ -207,7 +207,7 @@ a:hover { color: var(--redline); }
 .project-foot { margin-top: auto !important; font-size: 0.85rem !important; position: relative; z-index: 1; }
 .project-foot .sep { margin-inline: 0.35rem; opacity: .5; }
 .status { font: 500 0.75rem/1 var(--font-mono); padding: 0.3rem 0.5rem; border-radius: var(--radius); border: 1px solid currentColor; }
-.status-live, .status-in-production, .status-in-use { color: var(--ok); }
+.status-live, .status-deployed, .status-in-production, .status-in-use { color: var(--ok); }
 .status-in-progress, .status-building, .status-rolling-out { color: var(--warn); }
 .status-paused, .status-archived { color: var(--muted); }
 .stack { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0 0 1.1rem; padding: 0; }
