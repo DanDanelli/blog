@@ -16,7 +16,7 @@ An enterprise platform that puts Claude in front of a whole company, with the mo
 
 | | |
 |---|---|
-| **Users** | The whole company, planned for a few hundred people |
+| **Users** | The whole company, a few hundred people |
 | **Clients** | Claude Desktop (Chat, Cowork, Code) and the Claude Code CLI |
 | **Model** | Claude on Amazon Bedrock, EU inference profiles only |
 | **Tools** | Microsoft 365 and SharePoint, Jira and Confluence, SAP LeanIX |

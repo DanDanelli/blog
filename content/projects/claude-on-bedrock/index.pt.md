@@ -16,7 +16,7 @@ Uma plataforma corporativa que coloca o Claude à disposição de uma empresa in
 
 | | |
 |---|---|
-| **Usuários** | A empresa inteira, planejada para algumas centenas de pessoas |
+| **Usuários** | A empresa inteira, algumas centenas de pessoas |
 | **Clientes** | Claude Desktop (Chat, Cowork, Code) e a CLI do Claude Code |
 | **Modelo** | Claude no Amazon Bedrock, apenas com perfis de inferência da UE |
 | **Ferramentas** | Microsoft 365 e SharePoint, Jira e Confluence, SAP LeanIX |
